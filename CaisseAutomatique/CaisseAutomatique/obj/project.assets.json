@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\matte\\Desktop\\CaisseAutomatique\\CaisseAutomatique\\CaisseAutomatique.csproj",
+      "projectUniqueName": "C:\\Users\\matte\\Desktop\\git\\TP-Automate\\CaisseAutomatique\\CaisseAutomatique\\CaisseAutomatique.csproj",
       "projectName": "CaisseAutomatique",
-      "projectPath": "C:\\Users\\matte\\Desktop\\CaisseAutomatique\\CaisseAutomatique\\CaisseAutomatique.csproj",
+      "projectPath": "C:\\Users\\matte\\Desktop\\git\\TP-Automate\\CaisseAutomatique\\CaisseAutomatique\\CaisseAutomatique.csproj",
       "packagesPath": "C:\\Users\\matte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\matte\\Desktop\\CaisseAutomatique\\CaisseAutomatique\\obj\\",
+      "outputPath": "C:\\Users\\matte\\Desktop\\git\\TP-Automate\\CaisseAutomatique\\CaisseAutomatique\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\matte\\AppData\\Roaming\\NuGet\\NuGet.Config",

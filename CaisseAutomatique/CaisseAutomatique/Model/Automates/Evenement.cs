@@ -8,5 +8,6 @@ namespace CaisseAutomatique.Model.Automates
 {
     public enum Evenement
     {
+        SCANARTICLE
     }
 }

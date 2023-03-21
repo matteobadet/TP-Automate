@@ -42,7 +42,7 @@ namespace CaisseAutomatique.VueModel
             set
             {
                 estDisponible = value;
-                //this.NotifyPropertyChanged();
+                this.NotifyPropertyChanged("EstDisponnible");
             }
         }
 

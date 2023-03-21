@@ -99,8 +99,12 @@ namespace CaisseAutomatique.Model
         public void ScanArticle(Article article)
         {
             this.dernierArticleScanne = article;
+            
         }
-
+         public void AddProduit()
+        {
+            this.articles.Add(DernierArticleScanne);
+        }
         /// <summary>
         /// Pattern d'observable
         /// </summary>

@@ -23,7 +23,7 @@ namespace CaisseAutomatique.Model.Automates
         public Automate(Caisse caisse)
         {
             this.caisse = caisse;
-            this.etatCourant = new EtatAttenteClient(this.caisse);
+            this.etatCourant = new EtatAttenteClient(caisse);
         }
         public void Activer(Evenement e)
         {

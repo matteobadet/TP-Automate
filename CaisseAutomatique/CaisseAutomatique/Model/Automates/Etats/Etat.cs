@@ -18,7 +18,7 @@ namespace CaisseAutomatique.Model.Automates.Etats
         }
 
         public Caisse Caisse { get => caisse; }
-        public string Message { get; }
+        public abstract string Message { get; }
 
         public abstract Etat Transition(Evenement e);
         public abstract void Action(Evenement e);
