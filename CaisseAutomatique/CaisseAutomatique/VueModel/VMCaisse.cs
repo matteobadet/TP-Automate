@@ -120,6 +120,9 @@ namespace CaisseAutomatique.VueModel
         /// <param name="vueArticle">Vue de l'article scanné</param>
         public void PasseUnArticleDevantLeScannair(VueArticle vueArticle)
         {
+            this.metier.ScanArticle(vueArticle.Article);
+            this.automate.Activer(Evenement.SCANARTICLE);
+            NotifyPropertyChanged("Message");
         }
 
         /// <summary>
@@ -152,6 +155,8 @@ namespace CaisseAutomatique.VueModel
         /// </summary>
         public void Paye()
         {
+            this.automate.Activer(Evenement.PAYE);
+            NotifyPropertyChanged("Message");
         }
 
         /// <summary>

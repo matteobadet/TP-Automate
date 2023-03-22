@@ -9,19 +9,19 @@ namespace CaisseAutomatique.Model.Automates.Etats
     public class EtatAttenteClient : Etat
     {
         public override string Message { get => "Bonjour, scannez votre premier article!";}
-        public EtatAttenteClient(Caisse caisse) : base(caisse)
+        public EtatAttenteClient(Caisse caisse,Automate automate) : base(caisse, automate)
         {
         }
         public override Etat Transition(Evenement e)
         {
-            return new EtatAttenteProduitSuivant(Caisse);
+            return new EtatAttenteProduitSuivant(Caisse, Automate);
         }
 
         public override void Action(Evenement e)
         {
-            if(e == Evenement.SCANARTICLE)
+            switch (e)
             {
-                Caisse.AddProduit();
+                case Evenement.SCANARTICLE: Caisse.AddProduit(); break;
             }
         }
     }

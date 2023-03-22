@@ -8,6 +8,8 @@ namespace CaisseAutomatique.Model.Automates
 {
     public enum Evenement
     {
-        SCANARTICLE
+        SCANARTICLE,
+        PAYE,
+        RESET
     }
 }

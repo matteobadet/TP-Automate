@@ -104,6 +104,20 @@ namespace CaisseAutomatique.Model
          public void AddProduit()
         {
             this.articles.Add(DernierArticleScanne);
+            this.NotifyPropertyChanged("Articles");
+        }
+        public void ClearCaisse()
+        {
+            this.articles.Clear();
+            this.NotifyPropertyChanged("Articles");
+        }
+        public void Reset()
+        {
+            ClearCaisse();
+            this.dernierArticleScanne = null;
+            this.poidsBalance = 0;
+            this.sommePayee = 0;
+            this.NotifyPropertyChanged("Reset");
         }
         /// <summary>
         /// Pattern d'observable

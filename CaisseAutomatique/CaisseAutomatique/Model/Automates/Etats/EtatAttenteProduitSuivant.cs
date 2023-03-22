@@ -8,19 +8,29 @@ namespace CaisseAutomatique.Model.Automates.Etats
 {
     public class EtatAttenteProduitSuivant : Etat
     {
-        public EtatAttenteProduitSuivant(Caisse caisse) : base(caisse)
+        public EtatAttenteProduitSuivant(Caisse caisse, Automate automate) : base(caisse, automate)
         {
         }
 
         public override string Message { get => "Scannez le produit suivant !"; }
         public override void Action(Evenement e)
         {
-            throw new NotImplementedException(); 
+            switch (e)
+            {
+                case Evenement.SCANARTICLE: Caisse.AddProduit(); break;
+                case Evenement.PAYE: Caisse.ClearCaisse(); break;
+            }
         }
 
         public override Etat Transition(Evenement e)
         {
-            throw new NotImplementedException();
+            Etat res = null;
+            switch (e)
+            {
+                case Evenement.SCANARTICLE:res= new EtatAttenteProduitSuivant(Caisse, Automate);break;
+                case Evenement.PAYE:res = new EtatFin(Caisse, Automate);break;
+            }
+            return res;
         }
     }
 }
