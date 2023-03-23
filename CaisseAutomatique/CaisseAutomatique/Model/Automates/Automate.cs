@@ -4,6 +4,7 @@ using CaisseAutomatique.VueModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -18,7 +19,7 @@ namespace CaisseAutomatique.Model.Automates
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Message { get => etatCourant.Message; }
+        public string Message { get => this.etatCourant.Message; }
 
         public Automate(Caisse caisse)
         {

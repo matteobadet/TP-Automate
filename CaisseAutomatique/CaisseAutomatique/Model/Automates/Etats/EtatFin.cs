@@ -38,20 +38,12 @@ namespace CaisseAutomatique.Model.Automates.Etats
 
         public override void Action(Evenement e)
         {
-            switch (e)
-            {
-                case Evenement.RESET: Caisse.Reset();break;
-            }
+            
         }
 
         public override Etat Transition(Evenement e)
         {
-            Etat res = null;
-            switch (e)
-            {
-                case Evenement.RESET: res = new EtatAttenteClient(Caisse, Automate);break;
-            }
-            return res;
+            return new EtatAttenteClient(Caisse, Automate);
         }
     }
 }

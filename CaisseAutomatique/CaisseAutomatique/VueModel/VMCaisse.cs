@@ -6,6 +6,7 @@ using CaisseAutomatique.Vue;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace CaisseAutomatique.VueModel
@@ -21,7 +22,7 @@ namespace CaisseAutomatique.VueModel
         private Caisse metier;
         private Automate automate;
 
-        public string Message { get => automate.Message; }
+        public string Message { get => this.automate.Message; }
 
         /// <summary>
         /// Liste des articles de la caisse
@@ -53,10 +54,11 @@ namespace CaisseAutomatique.VueModel
         {
             this.EstDisponible = true;
             this.metier = new Caisse();
+            this.automate = new Automate(this.metier);
             this.metier.PropertyChanged += Metier_PropertyChanged;
+            this.automate.PropertyChanged += Automate_PropertyChanged;
             this.articles = new ObservableCollection<Article>();
             this.AjouterLigneTotalEtResteAPayer();
-            this.automate = new Automate(this.metier);
         }
 
         /// <summary>
@@ -122,7 +124,6 @@ namespace CaisseAutomatique.VueModel
         {
             this.metier.ScanArticle(vueArticle.Article);
             this.automate.Activer(Evenement.SCANARTICLE);
-            NotifyPropertyChanged("Message");
         }
 
         /// <summary>
@@ -156,7 +157,6 @@ namespace CaisseAutomatique.VueModel
         public void Paye()
         {
             this.automate.Activer(Evenement.PAYE);
-            NotifyPropertyChanged("Message");
         }
 
         /// <summary>
@@ -187,17 +187,17 @@ namespace CaisseAutomatique.VueModel
         {
         }
 
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void Automate_PropertyChanged(object? sender,PropertyChangedEventArgs e)
         {
             if(e.PropertyName == "Message")
             {
                 this.NotifyPropertyChanged("Message");
             }
-        }
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
