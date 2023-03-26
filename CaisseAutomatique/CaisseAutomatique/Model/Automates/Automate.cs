@@ -25,6 +25,7 @@ namespace CaisseAutomatique.Model.Automates
         {
             this.caisse = caisse;
             this.etatCourant = new EtatAttenteClient(caisse, this);
+            this.etatCourant.PropertyChanged += EtatCourant_PropertyChanged;
         }
         public void Activer(Evenement e)
         {
@@ -36,6 +37,14 @@ namespace CaisseAutomatique.Model.Automates
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void EtatCourant_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ScanArticleDenombrable")
+            {
+                NotifyPropertyChanged("ScanArticleDenombrable");
+            }
         }
     }
 }

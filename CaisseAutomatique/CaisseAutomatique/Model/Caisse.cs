@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -99,11 +100,13 @@ namespace CaisseAutomatique.Model
         public void ScanArticle(Article article)
         {
             this.dernierArticleScanne = article;
-            
         }
-         public void AddProduit()
+         public void AddProduit(int nbArticle=1)
         {
-            this.articles.Add(DernierArticleScanne);
+            for (int i = 0; i < nbArticle; i++)
+            {
+                this.articles.Add(DernierArticleScanne);
+            }
             this.NotifyPropertyChanged("Articles");
         }
         public void ClearCaisse()
@@ -119,6 +122,17 @@ namespace CaisseAutomatique.Model
             this.sommePayee = 0;
             this.NotifyPropertyChanged("Reset");
         }
+        public void AjoutPoidBalance()
+        {
+            poidsBalance += this.articles[this.articles.Count-1].Poids;
+            this.NotifyPropertyChanged("poidsBalance");
+        }
+        public void EnlevePoidBalance()
+        {
+            poidsBalance -= this.articles[this.articles.Count - 1].Poids;
+            this.NotifyPropertyChanged("poidsBalance");
+        }
+
         /// <summary>
         /// Pattern d'observable
         /// </summary>

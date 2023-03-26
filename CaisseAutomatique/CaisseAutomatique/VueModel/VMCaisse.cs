@@ -123,7 +123,13 @@ namespace CaisseAutomatique.VueModel
         public void PasseUnArticleDevantLeScannair(VueArticle vueArticle)
         {
             this.metier.ScanArticle(vueArticle.Article);
-            this.automate.Activer(Evenement.SCANARTICLE);
+            if (vueArticle.Article.IsDenombrable == false)
+            {
+                this.automate.Activer(Evenement.SCANARTICLE);
+            } else
+            {
+                this.automate.Activer(Evenement.SAISIEQUANTITE);
+            }
         }
 
         /// <summary>
@@ -132,6 +138,15 @@ namespace CaisseAutomatique.VueModel
         /// <param name="vueArticle">Vue de l'article posé sur la balance</param>
         public void PoseUnArticleSurLaBalance(VueArticle vueArticle)
         {
+            if(metier.DernierArticleScanne == vueArticle.Article)
+            {
+                metier.AjoutPoidBalance();
+                this.automate.Activer(Evenement.SCANARTICLE);
+            }
+            if (metier.PoidsAttendu != metier.PoidsBalance || vueArticle.Article != metier.DernierArticleScanne)
+            {
+                this.automate.Activer(Evenement.PROBLEME_POIDS);
+            }
         }
 
         /// <summary>
@@ -140,6 +155,24 @@ namespace CaisseAutomatique.VueModel
         /// <param name="vueArticle">Vue de l'article enlevé de la balance</param>
         public void EnleveUnArticleDeLaBalance(VueArticle vueArticle)
         {
+            if (metier.DernierArticleScanne == vueArticle.Article)
+            {
+                metier.EnlevePoidBalance();
+            }
+            if(metier.PoidsAttendu != metier.PoidsBalance)
+            {
+                this.automate.Activer(Evenement.PROBLEME_POIDS);
+            }
+            if(metier.PoidsAttendu == metier.PoidsBalance)
+            {
+                if(articles.Count == 2)
+                {
+                    this.automate.Activer(Evenement.RESET);
+                } else
+                {
+                    this.automate.Activer(Evenement.SCANARTICLE);
+                }
+            }
         }
 
         /// <summary>
@@ -149,6 +182,7 @@ namespace CaisseAutomatique.VueModel
         public void SaisirNombreArticle(int nbArticle)
         {
             this.metier.SaisieQuantite(nbArticle);
+            this.automate.Activer(Evenement.SAISIEQUANTITE);
         }
 
         /// <summary>
@@ -197,6 +231,10 @@ namespace CaisseAutomatique.VueModel
             if(e.PropertyName == "Message")
             {
                 this.NotifyPropertyChanged("Message");
+            }
+            if(e.PropertyName == "ScanArticleDenombrable")
+            {
+                OuvrirEcranSelectionQuantite();
             }
         }
     }

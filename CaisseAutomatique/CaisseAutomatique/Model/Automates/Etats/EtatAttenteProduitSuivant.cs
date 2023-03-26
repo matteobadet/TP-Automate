@@ -17,7 +17,15 @@ namespace CaisseAutomatique.Model.Automates.Etats
         {
             switch (e)
             {
-                case Evenement.SCANARTICLE: Caisse.AddProduit(); break;
+                case Evenement.SCANARTICLE:
+                    if(this.Caisse.DernierArticleScanne.IsDenombrable == false)
+                    {
+                        Caisse.AddProduit();
+                    } else
+                    {
+                        NotifyPropertyChanged("ScanArticleDenombrable");
+                    }
+                    break;
                 case Evenement.PAYE: Caisse.ClearCaisse(); break;
             }
         }
@@ -27,8 +35,10 @@ namespace CaisseAutomatique.Model.Automates.Etats
             Etat res = null;
             switch (e)
             {
-                case Evenement.SCANARTICLE:res= new EtatAttenteProduitSuivant(Caisse, Automate);break;
+                case Evenement.SCANARTICLE:res= new EtatAttenteArticleDansPanier(Caisse,Automate);break;
                 case Evenement.PAYE:res = new EtatFin(Caisse, Automate);break;
+                case Evenement.PROBLEME_POIDS: res = new EtatProblemePoids(Caisse, Automate);break;
+                case Evenement.SAISIEQUANTITE: res = new EtatSaisieQuantité(Caisse, Automate); break;
             }
             return res;
         }

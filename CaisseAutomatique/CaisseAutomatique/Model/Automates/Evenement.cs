@@ -10,6 +10,9 @@ namespace CaisseAutomatique.Model.Automates
     {
         SCANARTICLE,
         PAYE,
-        RESET
+        RESET,
+        ATTENDRE_ARTICLE_PANIER,
+        PROBLEME_POIDS,
+        SAISIEQUANTITE
     }
 }
