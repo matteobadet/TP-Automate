@@ -138,12 +138,12 @@ namespace CaisseAutomatique.VueModel
         /// <param name="vueArticle">Vue de l'article posé sur la balance</param>
         public void PoseUnArticleSurLaBalance(VueArticle vueArticle)
         {
-            if(metier.DernierArticleScanne == vueArticle.Article)
+            metier.AjoutPoidBalance(vueArticle.Article.Poids);
+            if (metier.PoidsBalance == metier.PoidsAttendu)
             {
-                metier.AjoutPoidBalance();
                 this.automate.Activer(Evenement.SCANARTICLE);
             }
-            if (metier.PoidsAttendu != metier.PoidsBalance || vueArticle.Article != metier.DernierArticleScanne)
+            else
             {
                 this.automate.Activer(Evenement.PROBLEME_POIDS);
             }
@@ -155,22 +155,23 @@ namespace CaisseAutomatique.VueModel
         /// <param name="vueArticle">Vue de l'article enlevé de la balance</param>
         public void EnleveUnArticleDeLaBalance(VueArticle vueArticle)
         {
-            if (metier.DernierArticleScanne == vueArticle.Article)
+            if (Message != "Bonjour, scannez votre premier article!")
             {
-                metier.EnlevePoidBalance();
-            }
-            if(metier.PoidsAttendu != metier.PoidsBalance)
-            {
-                this.automate.Activer(Evenement.PROBLEME_POIDS);
-            }
-            if(metier.PoidsAttendu == metier.PoidsBalance)
-            {
-                if(articles.Count == 2)
+                metier.EnlevePoidBalance(vueArticle.Article.Poids);
+                if (metier.PoidsAttendu != metier.PoidsBalance)
                 {
-                    this.automate.Activer(Evenement.RESET);
-                } else
+                    this.automate.Activer(Evenement.PROBLEME_POIDS);
+                }
+                if (metier.PoidsAttendu == metier.PoidsBalance)
                 {
-                    this.automate.Activer(Evenement.SCANARTICLE);
+                    if (articles.Count == 2)
+                    {
+                        this.automate.Activer(Evenement.RESET);
+                    }
+                    else
+                    {
+                        this.automate.Activer(Evenement.SCANARTICLE);
+                    }
                 }
             }
         }
@@ -182,7 +183,11 @@ namespace CaisseAutomatique.VueModel
         public void SaisirNombreArticle(int nbArticle)
         {
             this.metier.SaisieQuantite(nbArticle);
-            this.automate.Activer(Evenement.SAISIEQUANTITE);
+            if(this.automate.Message != "Déposez les/l'article(s) sur la balance")
+            {
+                this.automate.Activer(Evenement.SAISIEQUANTITE);
+            }
+            
         }
 
         /// <summary>
@@ -198,6 +203,8 @@ namespace CaisseAutomatique.VueModel
         /// </summary>
         public void DebutModeAdministration()
         {
+            OuvrirEcranAdministration();
+            this.automate.Activer(Evenement.PREND_CONTROLE_ADMIN);
         }
 
         /// <summary>
@@ -205,6 +212,10 @@ namespace CaisseAutomatique.VueModel
         /// </summary>
         public void FinModeAdministration()
         {
+            if (Message == "Borne Désactiver (Contrôle Admin)")
+            {
+                this.automate.Activer(Evenement.QUITTE_CONTROLE_ADMIN);
+            }
         }
 
         /// <summary>
@@ -212,6 +223,7 @@ namespace CaisseAutomatique.VueModel
         /// </summary>
         public void AnnuleDernierArticle()
         {
+            this.automate.Activer(Evenement.ANNULE_DERNIER_ARTICLE);
         }
 
         /// <summary>
@@ -219,6 +231,7 @@ namespace CaisseAutomatique.VueModel
         /// </summary>
         public void AnnuleTousLesArticles()
         {
+            this.automate.Activer(Evenement.ANNULE_COMMANDE);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

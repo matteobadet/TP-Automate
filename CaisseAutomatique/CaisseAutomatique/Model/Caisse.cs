@@ -109,6 +109,11 @@ namespace CaisseAutomatique.Model
             }
             this.NotifyPropertyChanged("Articles");
         }
+        public void DeleteProduit()
+        {
+            this.articles.Remove(DernierArticleScanne);
+            this.NotifyPropertyChanged("Articles");
+        }
         public void ClearCaisse()
         {
             this.articles.Clear();
@@ -122,14 +127,14 @@ namespace CaisseAutomatique.Model
             this.sommePayee = 0;
             this.NotifyPropertyChanged("Reset");
         }
-        public void AjoutPoidBalance()
+        public void AjoutPoidBalance(double poids)
         {
-            poidsBalance += this.articles[this.articles.Count-1].Poids;
+            poidsBalance += poids;
             this.NotifyPropertyChanged("poidsBalance");
         }
-        public void EnlevePoidBalance()
+        public void EnlevePoidBalance(double poids)
         {
-            poidsBalance -= this.articles[this.articles.Count - 1].Poids;
+            poidsBalance -= poids;
             this.NotifyPropertyChanged("poidsBalance");
         }
 

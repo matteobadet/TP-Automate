@@ -26,6 +26,7 @@ namespace CaisseAutomatique.Model.Automates.Etats
             {
                 case Evenement.RESET:res = new EtatAttenteClient(Caisse, Automate);break;
                 case Evenement.SCANARTICLE:res = new EtatAttenteProduitSuivant(Caisse, Automate);break;
+                case Evenement.PREND_CONTROLE_ADMIN: res = new EtatControleAdmin(Caisse, Automate); break;
             }
             return res;
         }

@@ -29,6 +29,8 @@ namespace CaisseAutomatique.Model.Automates
         }
         public void Activer(Evenement e)
         {
+            Trace.WriteLine(Message);
+            Trace.WriteLine(e);
             this.etatCourant.Action(e);
             this.etatCourant = etatCourant.Transition(e);
             NotifyPropertyChanged("Message");

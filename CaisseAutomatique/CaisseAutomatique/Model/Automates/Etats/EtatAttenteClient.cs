@@ -20,6 +20,7 @@ namespace CaisseAutomatique.Model.Automates.Etats
                 case Evenement.SCANARTICLE:res =new EtatAttenteArticleDansPanier(Caisse, Automate);break;
                 case Evenement.PROBLEME_POIDS:res = new EtatProblemePoids(Caisse, Automate);break;
                 case Evenement.SAISIEQUANTITE:res = new EtatSaisieQuantité(Caisse, Automate);break;
+                case Evenement.PREND_CONTROLE_ADMIN: res = new EtatControleAdmin(Caisse, Automate); break;
             }
             return res;
         }

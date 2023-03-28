@@ -13,6 +13,10 @@ namespace CaisseAutomatique.Model.Automates
         RESET,
         ATTENDRE_ARTICLE_PANIER,
         PROBLEME_POIDS,
-        SAISIEQUANTITE
+        SAISIEQUANTITE,
+        PREND_CONTROLE_ADMIN,
+        QUITTE_CONTROLE_ADMIN,
+        ANNULE_DERNIER_ARTICLE,
+        ANNULE_COMMANDE
     }
 }
